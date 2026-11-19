@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 64" role="img" aria-label="My Blue App">
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5AA2F0"/>
+      <stop offset="1" stop-color="#3B73D2"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#blue)"/>
+  <rect x="12" y="15" width="40" height="30" rx="9" fill="#fff"/>
+  <path d="M23 44 L23 54 L34 45 Z" fill="#fff"/>
+  <path d="M19 30 Q25 22 31 30 T43 30" fill="none" stroke="#4A8BE8" stroke-width="4" stroke-linecap="round"/>
+  <text x="80" y="43" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="800" fill="#1B3FA0">My Blue App</text>
+</svg>
