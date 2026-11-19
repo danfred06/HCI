@@ -1,3 +1,6 @@
+=======
+# HCI
+>>>>>>> b99ca06843e5db4b02f14cc57c6d2cc55d4fad32
 # My Blue App
 
 React (Vite) frontend + Laravel 12 REST API (Sanctum), built from the wireframe specification.
@@ -71,3 +74,6 @@ Bearer tokens are stored in `localStorage` and sent by the axios interceptor. A 
 - The UI follows the supplied screenshots: a Facebook-style layout with top nav (logo, search, Dashboard / My Profile / Friends / Logout), left sidebar (profile, News Feed, Saved, Groups, Chats), center feed and right widget. Palette sampled directly from the screenshots: `#DBF2F6` background, `#C0E5F8` nav, `#FFF8F8` cards, `#EFEAEA` inputs and `#4D8BE9` blue.
 - The 102 × 119 right-hand box is kept as a reserved widget placeholder, as in the wireframe.
 - Lint (`npm run lint`) reports only advisory React fast-refresh/effect warnings from the standard provider and data-fetching patterns used in the spec.
+=======
+# HCI
+>>>>>>> b99ca06843e5db4b02f14cc57c6d2cc55d4fad32
