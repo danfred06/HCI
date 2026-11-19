@@ -1,0 +1,19 @@
+# Environment files
+**/.env
+**/.env.*
+!**/.env.example
+
+# React
+**/node_modules/
+**/dist/
+
+# Laravel
+**/vendor/
+**/storage/*.key
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
