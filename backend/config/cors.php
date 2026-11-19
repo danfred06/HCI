@@ -5,14 +5,15 @@ return [
 
     'allowed_methods' => ['*'],
 
+    // Allow any local dev port (Vite falls back to 5174, 5175, ... when busy).
     'allowed_origins' => [
-        'http://localhost:5173',
-        'http://127.0.0.1:5173',
-        'http://localhost:5174',
-        'http://127.0.0.1:5174',
+        'http://localhost',
+        'http://127.0.0.1',
     ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        '/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/',
+    ],
 
     'allowed_headers' => ['*'],
 

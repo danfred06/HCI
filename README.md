@@ -1,20 +1,18 @@
-=======
-# HCI
->>>>>>> b99ca06843e5db4b02f14cc57c6d2cc55d4fad32
-# My Blue App
+# HCI — My Blue App
 
 React (Vite) frontend + Laravel 12 REST API (Sanctum), built from the wireframe specification.
 
 ```
 .
-├── backend/    # Laravel API — http://localhost:8100
-└── frontend/   # React SPA — http://localhost:5174
-
-Ports 8000 and 5173 were already occupied on this machine, so this app uses 8100
-(API) and 5174 (SPA). Change `APP_URL` in `backend/.env`, `VITE_API_URL` in
-`frontend/.env`, CORS origins in `backend/config/cors.php`, and the dev-server port
-together if you want different ports.
+├── backend/    # Laravel API — http://127.0.0.1:8100
+└── frontend/   # React SPA — http://127.0.0.1:5400
 ```
+
+Ports 5173/5174/5180 and 8000 are used by other apps on this machine, so this app
+uses a dedicated fixed port **5400** for the SPA and **8100** for the API. The SPA
+port is pinned with `strictPort: true` in `frontend/vite.config.js`, so it will
+never silently switch to a different port again. API requests from the browser use
+`http://127.0.0.1:8100/api` (set in `frontend/.env`).
 
 ## Quick start
 
@@ -33,7 +31,10 @@ npm install
 npm run dev
 ```
 
-Open <http://localhost:5174>. Sign up, create a post (text and/or image), visit Settings, then log out and log back in with either the username or the email address.
+Open <http://127.0.0.1:5400>. Sign up, create a post (text and/or image), visit Settings, then log out and log back in with either the username or the email address.
+
+> Both servers must be running. If account creation fails with a network/CORS error,
+> check that the API on port 8100 is up and that the SPA is on port 5400.
 
 ### Using MySQL instead
 
@@ -63,7 +64,7 @@ Create the `my_blue_app` database first, then run `php artisan migrate` again.
 | POST | `/api/posts` | Yes | Create a post with text and/or image |
 | DELETE | `/api/posts/{id}` | Yes | Delete your own post |
 
-Bearer tokens are stored in `localStorage` and sent by the axios interceptor. A `401` response clears the token and logs the user out in the UI. CORS is limited to the Vite dev origins in `backend/config/cors.php`.
+Bearer tokens are stored in `localStorage` and sent by the axios interceptor. A `401` response clears the token and logs the user out in the UI. CORS allows any `localhost`/`127.0.0.1` dev origin on any port (`backend/config/cors.php`), so Vite port changes cannot break signup again.
 
 ## Notes on the spec
 
@@ -71,9 +72,6 @@ Bearer tokens are stored in `localStorage` and sent by the axios interceptor. A 
 - Avatars and post images are served from `storage/app/public` via `php artisan storage:link`; `APP_URL` must match the API origin for generated image URLs.
 - The composer shows an image preview and the feed offers a delete button for your own posts.
 - The app logo (`frontend/public/logo.png`) is taken directly from the user-supplied logo image — a blue graphic mark above the dark navy `#021C5B` "My Blue App" wordmark, extracted onto a transparent background. `frontend/public/logo-mark.png` is the cropped graphic used as the favicon. Both appear in the navbar and on Login/Sign Up.
-- The UI follows the supplied screenshots: a Facebook-style layout with top nav (logo, search, Dashboard / My Profile / Friends / Logout), left sidebar (profile, News Feed, Saved, Groups, Chats), center feed and right widget. Palette sampled directly from the screenshots: `#DBF2F6` background, `#C0E5F8` nav, `#FFF8F8` cards, `#EFEAEA` inputs and `#4D8BE9` blue.
+- The UI follows the supplied screenshots: a Facebook-style layout with top nav (logo, Dashboard / My Profile / Friends / Logout), left sidebar (search, profile, News Feed, Saved, Groups, Chats), center feed and right widget. Palette sampled directly from the screenshots: `#DBF2F6` background, `#C0E5F8` nav, `#FFF8F8` cards, `#EFEAEA` inputs and `#4D8BE9` blue.
 - The 102 × 119 right-hand box is kept as a reserved widget placeholder, as in the wireframe.
 - Lint (`npm run lint`) reports only advisory React fast-refresh/effect warnings from the standard provider and data-fetching patterns used in the spec.
-=======
-# HCI
->>>>>>> b99ca06843e5db4b02f14cc57c6d2cc55d4fad32
