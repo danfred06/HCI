@@ -2,6 +2,5 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// A controller-backed route (instead of a closure) keeps `route:cache` working.
+Route::view('/', 'welcome');

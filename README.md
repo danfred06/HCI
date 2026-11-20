@@ -96,6 +96,49 @@ npm run lint
 
 `tests/Feature/AuthTest.php` covers registration (success, required/invalid/duplicate fields, hashed passwords, ignored privilege fields), login (username, email, invalid credentials, empty fields), protected routes, and token revocation on logout.
 
+## Deploy to Render
+
+`render.yaml` at the repository root is a Render Blueprint that provisions all three
+pieces automatically:
+
+| Service | Type | Public URL |
+|---|---|---|
+| `hci-blue-app-db` | Render Postgres (free) | private |
+| `hci-blue-app-api` | Docker web service (nginx + PHP-FPM 8.4.27) | `https://hci-blue-app-api.onrender.com` |
+| `hci-blue-app` | Static site (Vite build) | `https://hci-blue-app.onrender.com` |
+
+### Steps
+
+1. Push everything to `main` (Blueprint deploys read from Git).
+2. In the Render Dashboard, click **New → Blueprint**.
+3. Connect `https://github.com/danfred06/HCI.git` and select branch `main`.
+4. Render detects `render.yaml`; review the three resources and click **Deploy Blueprint**.
+5. Wait for both web services to become **Live**, then open the frontend URL above.
+
+Render generates `APP_KEY` automatically, injects the Postgres connection string as
+`DB_URL`, and supplies `FRONTEND_URL` / `VITE_API_URL` so CORS and the API base URL
+work out of the box. Migrations, config/route caching and the `public/storage` link
+run from `backend/scripts/00-laravel-deploy.sh` on every container start.
+
+### If you rename a service or add a custom domain
+
+Keep these three values consistent (they are set in `render.yaml`):
+
+- API service: `APP_URL` → your API's public URL
+- Frontend service: `FRONTEND_URL` (on the API) → your frontend's public URL
+- Frontend build: `VITE_API_URL` → `<your API URL>/api`
+
+Then trigger a manual deploy of both services.
+
+### Free-plan caveats
+
+- Render's free Postgres database is deleted after **30 days**; create a new one or
+  upgrade to a paid instance for a permanent deployment.
+- Free web services spin down when idle, so the first request after inactivity can
+  take ~30–60 seconds while the container and migrations start.
+- Uploaded images use the local `public/storage` disk, which resets on each deploy.
+  Move `FILESYSTEM_DISK` to S3 (or similar) before relying on permanent uploads.
+
 ## Notes on the spec
 
 - The wireframe navbar links to **Settings**, but the original document had no route for it; a protected Settings page and `PUT /api/profile` were added.
