@@ -20,10 +20,16 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
+        // Only validated fields are mass-assigned, so public registration cannot
+        // grant a privileged role or any other trusted attribute.
         $user = User::create($data);
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['user' => $user, 'token' => $token], 201);
+        return response()->json([
+            'message' => 'Registration successful.',
+            'user' => $user,
+            'token' => $token,
+        ], 201);
     }
 
     // POST /api/login — "Username or Email" + Password
@@ -45,7 +51,11 @@ class AuthController extends Controller
         $user = User::where($field, $request->login)->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json(['user' => $user, 'token' => $token]);
+        return response()->json([
+            'message' => 'Login successful.',
+            'user' => $user,
+            'token' => $token,
+        ]);
     }
 
     // GET /api/me — current user (sidebar name and settings)

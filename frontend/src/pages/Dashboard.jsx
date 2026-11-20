@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import PostComposer from "../components/PostComposer";
@@ -7,6 +8,8 @@ import RightWidget from "../components/RightWidget";
 import api from "../api/axios";
 
 export default function Dashboard() {
+  const location = useLocation();
+  const notice = location.state?.notice;
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -45,6 +48,8 @@ export default function Dashboard() {
         <Sidebar />
 
         <main className="feed-column">
+          {notice && <p className="notice success">{notice}</p>}
+
           <div className="composer-card">
             <PostComposer onPosted={addPost} />
           </div>

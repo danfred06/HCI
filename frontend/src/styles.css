@@ -164,9 +164,18 @@ a:hover, button:hover { filter: brightness(0.97); }
 
 .small { font-size: 12px; text-align: center; margin: 0; }
 
-.error, .success { font-size: 12px; margin: 0; }
-.error { color: var(--danger); }
+.error, .success, .field-error { font-size: 12px; margin: 0; }
+.error, .field-error { color: var(--danger); }
+.field-error { padding: 4px 4px 0; }
 .success { color: #1b7f4b; }
+
+.notice {
+  background: #e7f7ee;
+  border: 1px solid #b7e2c9;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 600;
+}
 
 .link-btn {
   background: none;

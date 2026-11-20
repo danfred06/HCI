@@ -18,6 +18,19 @@ never silently switch to a different port again. API requests from the browser u
 
 SQLite is configured by default, so no database server is needed.
 
+**Easiest option — from the project root in PowerShell:**
+
+```powershell
+.\start-dev.ps1
+```
+
+It opens one terminal for the API and one for the SPA, and skips any server that is
+already running. Both servers must stay up for signup/login to work; if either one
+stops, the forms now show a "Cannot connect to the server" message instead of failing
+silently.
+
+**Manual option:**
+
 ```bash
 # Terminal 1 — API
 cd backend
@@ -64,7 +77,24 @@ Create the `my_blue_app` database first, then run `php artisan migrate` again.
 | POST | `/api/posts` | Yes | Create a post with text and/or image |
 | DELETE | `/api/posts/{id}` | Yes | Delete your own post |
 
-Bearer tokens are stored in `localStorage` and sent by the axios interceptor. A `401` response clears the token and logs the user out in the UI. CORS allows any `localhost`/`127.0.0.1` dev origin on any port (`backend/config/cors.php`), so Vite port changes cannot break signup again.
+Bearer tokens are stored in `localStorage` and sent by the axios interceptor. A `401` response clears the token and logs the user out in the UI. CORS allows any `localhost`/`127.0.0.1` dev origin on any port (`backend/config/cors.php`), so Vite port changes cannot break signup again. Login and registration are rate-limited to 10 requests/minute per IP.
+
+Passwords are hashed by Laravel's `hashed` cast and never returned. Public registration only accepts validated `username`, `email` and `password` fields, so a submitted `role`/admin flag is ignored. Login errors are identical for an unknown account and a wrong password.
+
+## Tests and checks
+
+```bash
+# Backend (uses an in-memory SQLite database — never touches your data)
+cd backend
+php artisan test
+
+# Frontend
+cd frontend
+npm run build
+npm run lint
+```
+
+`tests/Feature/AuthTest.php` covers registration (success, required/invalid/duplicate fields, hashed passwords, ignored privilege fields), login (username, email, invalid credentials, empty fields), protected routes, and token revocation on logout.
 
 ## Notes on the spec
 
